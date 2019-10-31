@@ -45,6 +45,14 @@ public class MessageStore {
 		// clear the message buffer of the subscriber when sending him unread messages
 		pendingMessages.clear();
 
-		return Arrays.asList(messages);
+		return filterUniqueMessages(messages);
 	} 
+
+	private List<Message> filterUniqueMessages(Message[] messages) {
+		Map<String, Message> messageMap =  new HashMap<String, Message>();
+		for (Message message : messages) {
+			messageMap.put(message.getUrl(), message);
+		}
+		return new ArrayList<Message>(messageMap.values());
+	}
 }
