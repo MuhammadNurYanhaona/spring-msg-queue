@@ -11,6 +11,11 @@ import java.util.Arrays;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+/* The MessageStore is a buffering facility for messages for all subscriber clients. Once
+ * some messages have been delivered to a subscriber. His buffer is emptied. The model is
+ * that a subscriber will only receives a single message once. In addition, he/she does not
+ * receive old messages of his/her topic of interest that have been published before he/she
+ * get the subscription. */
 @Component
 @Scope("singleton")
 public class MessageStore {
@@ -36,7 +41,10 @@ public class MessageStore {
 			return new ArrayList<Message>();
 		}	
 		Message[] messages =  pendingMessages.toArray(new Message[]{});
+		
+		// clear the message buffer of the subscriber when sending him unread messages
 		pendingMessages.clear();
+
 		return Arrays.asList(messages);
 	} 
 }

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 @Data
 public class Host {
 
-	@Value("${peer.communication.protocol=}")
+	@Value("${peer.communication.protocol}")
 	private String protocol;
 	
 	@Value("${host.ip.address}")

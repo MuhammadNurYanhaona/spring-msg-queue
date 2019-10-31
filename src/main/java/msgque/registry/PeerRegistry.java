@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+/* This registry class keeps track of all peers this message queue communicates with */
 @Component
 @Scope("singleton")
 public class PeerRegistry {
@@ -20,6 +21,9 @@ public class PeerRegistry {
 	}
 
 	public Peer registerPeer(Peer peer) {
+		if (registry.containsKey(peer.getUrl())) {
+			return null;
+		}
 		return registry.put(peer.getUrl(), peer);
 	}
 

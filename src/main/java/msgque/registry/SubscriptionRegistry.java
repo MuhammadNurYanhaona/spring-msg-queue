@@ -9,22 +9,32 @@ import java.util.ArrayList;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+/* Registry class for keeping track of all active subscriptions */
 @Component
 @Scope("singleton")
 public class SubscriptionRegistry {
 
-	private Map<Integer, Subscription> subscriptions;
+	private Map<String, Subscription> subscriptions;
 
 	public SubscriptionRegistry() {
-		subscriptions = new HashMap<Integer, Subscription>();
+		subscriptions = new HashMap<String, Subscription>();
 	}
 
-	public void addSubscription(Subscription subscription) {
+	public boolean addSubscription(Subscription subscription) {
+
+		if (subscriptions.get(subscription.getId()) != null) {
+			return false;
+		}
 		subscriptions.put(subscription.getId(), subscription);
+		return true;
 	}
 
-	public Subscription removeSubscription(int subscriptionId) {
+	public Subscription removeSubscription(String subscriptionId) {
 		return subscriptions.remove(subscriptionId);
+	}
+
+	public Subscription getSubscription(String subscriptionId) {
+		return subscriptions.get(subscriptionId);
 	}
 
 	public List<Subscription> getSubscriptionswithInterestInMsg(MessageType type) {
